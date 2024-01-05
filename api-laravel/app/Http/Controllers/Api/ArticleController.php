@@ -20,12 +20,18 @@ class ArticleController extends Controller
         return ArticleResource::make($article);
     }
 
-    public function create(Request $request){
-        
+    public function create(Request $request): ArticleResource{
+        //dd($request);
+        $request->validate([
+            'data.attributes.title' =>  ['required'],
+            'data.attributes.slug' =>  ['required'],
+            'data.attributes.content' =>  ['required'],
+        ]);
+
         $article = Article::create([
-            'title' => $request->input('data.atributes.title'),
-            'slug' => $request->input('data.atributes.slug'),
-            'content' => $request->input('data.atributes.content'),
+            'title' => $request->input('data.attributes.title'),
+            'slug' => $request->input('data.attributes.slug'),
+            'content' => $request->input('data.attributes.content'),
         ]);
 
         return ArticleResource::make($article);

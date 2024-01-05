@@ -19,7 +19,7 @@ class CreateAriticleTest extends TestCase
         $response = $this->postJson(route('api.v1.articles.create'), [
             'data' => [
                 'type' => 'articles',
-                'atributes' => [
+                'attributes' => [
                     'title' => 'Nuevo articulo',
                     'slug' => 'nuevo-articulo',
                     'content' => 'Contenido del articulo'
@@ -51,6 +51,63 @@ class CreateAriticleTest extends TestCase
                 ]
             ]
         ]);
+        
+    }
+
+    /** @test */
+    public function title_is_required()
+    {
+        //$this->withoutExceptionHandling();
+
+        $response = $this->postJson(route('api.v1.articles.create'), [
+            'data' => [
+                'type' => 'articles',
+                'attributes' => [
+                    'slug' => 'nuevo-articulo',
+                    'content' => 'Contenido del articulo'
+                ]
+            ]
+        ]);
+
+        $response->assertJsonApiValidationErrors('title');
+        
+    }
+
+    /** @test */
+    public function slug_is_required()
+    {
+        //$this->withoutExceptionHandling();
+
+        $response = $this->postJson(route('api.v1.articles.create'), [
+            'data' => [
+                'type' => 'articles',
+                'attributes' => [
+                    'title' => 'Nuevo articulo',
+                    'content' => 'Contenido del articulo'
+                ]
+            ]
+        ]);
+
+        $response->assertJsonApiValidationErrors('slug');
+        
+    }
+
+    /** @test */
+    public function content_is_required()
+    {
+        //$this->withoutExceptionHandling();
+
+        $response = $this->postJson(route('api.v1.articles.create'), [
+            'data' => [
+                'type' => 'articles',
+                'attributes' => [
+                    'title' => 'Nuevo articulo',
+                    'slug' => 'nuevo-articulo',
+                ]
+            ]
+        ]);
+
+        $response->assertJsonApiValidationErrors('content');
         
     }
 }
