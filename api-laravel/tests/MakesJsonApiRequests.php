@@ -1,12 +1,15 @@
 <?php
 namespace Tests;
 
-use PHPUnit\Framework\Assert as PHPUnit;
+use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
+use PHPUnit\Framework\Assert as PHPUnit;
 use PHPUnit\Framework\ExpectationFailedException;
 
 trait MakesJsonApiRequests
 {
+    protected bool $formatJsonApiDocument = true;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -14,11 +17,19 @@ trait MakesJsonApiRequests
         TestResponse::macro('assertJsonApiValidationErrors', $this->assertJsonApiValidationErrors());
     }
 
+    public function withoutJsonApiDocumentFormatting(){
+        $this->formatJsonApiDocument = false;
+    }
+
     protected function assertJsonApiValidationErrors(){
         return function($attribute){
+            $pointer = Str::of($attribute)->startsWith('data')
+                ?"/". str_replace('.', '/', $attribute)
+                :"/data/attributes/{$attribute}";
+
             try{
                 $this->assertJsonFragment([
-                    'source' => ['pointer' => "/data/attributes/{$attribute}"]
+                    'source' => ['pointer' => $pointer]
                 ]);    
             }catch(ExpectationFailedException $e){
                 PHPUnit::fail(
@@ -49,7 +60,11 @@ trait MakesJsonApiRequests
     public function json($method, $uri, array $data = [], array $headers = []):TestResponse{
         $headers['accept'] = 'application/vnd.api+json';
 
-        return parent::json($method, $uri, $data, $headers);
+        if($this->formatJsonApiDocument){
+            $formattedData = $this->getFormattedDatta($uri, $data);
+        }
+
+        return parent::json($method, $uri, $formattedData ?? $data, $headers);
     }
 
     public function postJson($uri, array $data = [], array $headers = []):TestResponse{
@@ -62,6 +77,21 @@ trait MakesJsonApiRequests
         $headers['content-type'] = 'application/vnd.api+json';
 
         return parent::patchJson($uri, $data, $headers);
+    }
+
+    public function getFormattedDatta($uri, array $data):array
+    {
+        $path = parse_url($uri)['path'];
+        $type = (string)Str::of($path)->after('api/v1/')->before('/');
+        $id = (string)Str::of($path)->after($type)->replace('/','');
+
+        return [
+            'data' => array_filter([
+                'type' => $type,
+                'id'=> $id,
+                'attributes' => $data
+            ])
+        ];
     }
 }
 ?>
