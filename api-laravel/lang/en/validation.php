@@ -151,6 +151,10 @@ return [
     'ulid' => 'The :attribute must be a valid ULID.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
+    'no_underscore' => 'The :attribute must not contain underscore',
+    'no_starting_dashes' => 'The :attribute must not staring dashes',
+    'no_ending_dashes' => 'The :attribute must not ending dashes',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

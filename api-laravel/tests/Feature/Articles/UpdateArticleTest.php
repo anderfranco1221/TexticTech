@@ -18,7 +18,7 @@ class UpdateArticleTest extends TestCase
 
         $response = $this->patchJson(route('api.v1.articles.update', $article), [
             'title' => 'Update articulo',
-            'slug' => 'update-articulo',
+            'slug' => $article->slug,
             'content' => 'Actualizar contenido del articulo'
         ])->assertOk();
         
@@ -36,7 +36,7 @@ class UpdateArticleTest extends TestCase
                 'id' => (string) $article->getRouteKey(),
                 'attributes' => [
                     'title' => 'Update articulo',
-                    'slug' => 'update-articulo',
+                    'slug' => $article->slug,
                     'content' => 'Actualizar contenido del articulo'
                 ],
                 'links' => [
@@ -71,6 +71,22 @@ class UpdateArticleTest extends TestCase
         $response = $this->patchJson(route('api.v1.articles.update', $article), [
                     'title' => 'Update articulo',
                     'content' => 'Actualizar Contenido del articulo'
+        ]);
+
+        $response->assertJsonApiValidationErrors('slug');
+        
+    }
+
+    /** @test */
+    public function slug_must_be_unique()
+    {
+        $article1 = Article::factory()->create();
+        $article2 = Article::factory()->create();
+
+        $response = $this->patchJson(route('api.v1.articles.update', $article1), [
+                    'title' => 'Nuevo articulo',
+                    'slug' => $article2->slug,
+                    'content' => 'Contenido del articulo'
         ]);
 
         $response->assertJsonApiValidationErrors('slug');

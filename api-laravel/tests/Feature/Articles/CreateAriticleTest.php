@@ -76,6 +76,73 @@ class CreateAriticleTest extends TestCase
     }
 
     /** @test */
+    public function slug_must_be_unique()
+    {
+        $article = Article::factory()->create();
+
+        $response = $this->postJson(route('api.v1.articles.store'), [
+                    'title' => 'Nuevo articulo',
+                    'slug' => $article->slug,
+                    'content' => 'Contenido del articulo'
+        ]);
+
+        $response->assertJsonApiValidationErrors('slug');
+        
+    }
+
+    /** @test */
+    public function slug_must_only_contain_letters_numbers_and_dashes()
+    {
+        $response = $this->postJson(route('api.v1.articles.store'), [
+                    'title' => 'Nuevo articulo',
+                    'slug' => '$#$$?)(&%$%#""',
+                    'content' => 'Contenido del articulo'
+        ]);
+
+        $response->assertJsonApiValidationErrors('slug');
+        
+    }
+
+     /** @test */
+    public function slug_must_not_contain_underscores()
+    {
+        $response = $this->postJson(route('api.v1.articles.store'), [
+                    'title' => 'Nuevo articulo',
+                    'slug' => 'holla_as',
+                    'content' => 'Contenido del articulo'
+        ])->assertSee(trans('validation.no_underscores', ['attribute' => 'data.attributes.slug']));
+
+        $response->assertJsonApiValidationErrors('slug');
+        
+    }
+
+     /** @test */
+    public function slug_must_not_start_with_dashes()
+    {
+        $response = $this->postJson(route('api.v1.articles.store'), [
+                    'title' => 'Nuevo articulo',
+                    'slug' => '-starts-with-dashe',
+                    'content' => 'Contenido del articulo'
+        ])->assertSee(trans('validation.no_starting_dashes', ['attribute' => 'data.attributes.slug']));
+
+        $response->assertJsonApiValidationErrors('slug');
+        
+    }
+
+     /** @test */
+    public function slug_must_not_finish_with_dashes()
+    {
+        $response = $this->postJson(route('api.v1.articles.store'), [
+                    'title' => 'Nuevo articulo',
+                    'slug' => 'finish-with-dashe-',
+                    'content' => 'Contenido del articulo'
+        ])->assertSee(trans('validation.no_ending_dashes', ['attribute' => 'data.attributes.slug']));
+
+        $response->assertJsonApiValidationErrors('slug');
+        
+    }
+
+    /** @test */
     public function content_is_required()
     {
         //$this->withoutExceptionHandling();
