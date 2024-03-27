@@ -14,14 +14,13 @@ trait MakesJsonApiRequests
     {
         parent::setUp();
 
-        TestResponse::macro('assertJsonApiValidationErrors', $this->assertJsonApiValidationErrors());
     }
 
     public function withoutJsonApiDocumentFormatting(){
         $this->formatJsonApiDocument = false;
     }
 
-    protected function assertJsonApiValidationErrors(){
+    /* protected function assertJsonApiValidationErrors(){
         return function($attribute){
             $pointer = Str::of($attribute)->startsWith('data')
                 ?"/". str_replace('.', '/', $attribute)
@@ -55,7 +54,7 @@ trait MakesJsonApiRequests
 
             $this->assertHeader('content-type', 'application/vnd.api+json')->assertStatus(422);
         };
-    }
+    } */
 
     public function json($method, $uri, array $data = [], array $headers = []):TestResponse{
         $headers['accept'] = 'application/vnd.api+json';

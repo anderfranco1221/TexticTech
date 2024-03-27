@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Article;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleResource;
@@ -12,8 +13,13 @@ use App\Http\Resources\ArticleCollection;
 class ArticleController extends Controller
 {
     public function index():ArticleCollection{
-        
-        return ArticleCollection::make(Article::all());
+
+        //$articles = Article::query();
+        $articles = Article::allowedSorts(['title', 'content']);
+
+        return ArticleCollection::make(
+            $articles->jsonPaginate()
+        );
     }
 
     public function show(Article $article): ArticleResource{
