@@ -1,4 +1,4 @@
-<?php
+<!-- <php
 
 namespace App\Http\Resources;
 
@@ -22,3 +22,4 @@ class ArticleCollection extends ResourceCollection
         ];
     }
 }
+ -->

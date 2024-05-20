@@ -1,32 +1,22 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\JsonApi\Traits;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-use App\JsonApi\Traits\JsonApiResource;
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class ArticleResource extends JsonResource
+trait JsonApiResource
 {
-    use JsonApiResource;
-    
-    public function toJsonApi():array
-    {
-        return [
-            'title' => $this->resource->title,
-            'slug' => $this->resource->slug,
-            'content' => $this->resource->content
-        ];
-    }
 
-/* 
+    abstract public function toJsonApi(): array;
+    
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     *
+     */
     public function toArray($request)
     {
+        //Estructura de la respuesta segun el objeto
         return [
             'type' => $this->getResourceType(),
             'id'    => (string) $this->resource->getRouteKey(),
@@ -38,18 +28,26 @@ class ArticleResource extends JsonResource
         ];
     }
 
+    /**
+     * Envia los headers en el objeto de respuesta
+     */
     public function withResponse($request, $response)
     {
+
+        //Forma 1
         $response->header(
             'Location',
             route('api.v1.' . $this->getResourceType() . '.show', $this->resource)
         );
-        
+        //Forma 2
         /* return parent::toResponse($request)->withHeaders([
             'Location' => route('api.v1.'.$this->getResourceType().'.show', $this->resource)
-        ]); *
+        ]); */
     }
 
+    /**
+     * Filtra por los atributos indicados en la url
+     */
     public function filterAttributes(array $attributes): array
     {
 
@@ -68,5 +66,19 @@ class ArticleResource extends JsonResource
                 return $value;
             }
         );
-    } */
+    }
+
+    /**
+     * Obtiene los links en las coleciones
+     */
+    public static function collection($resource): AnonymousResourceCollection
+    {
+        $collection = parent::collection($resource);
+
+        $collection->with['links'] = ['self' => $resource->path()];
+
+        return $collection;
+    }
 }
+
+?>

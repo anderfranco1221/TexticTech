@@ -3,38 +3,30 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Article;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleResource;
 use App\Http\Requests\SaveArticleRequest;
 use App\Http\Resources\ArticleCollection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ArticleController extends Controller
 {
-    public function index():ArticleCollection{
-
-        $articles = Article::query();
-
-        $allowedFilters = ['title', 'content', 'month', 'year'];
-
-        foreach(request('filter', []) as $filter => $value){
-
-            abort_unless(in_array($filter, $allowedFilters), 400);
-
-            $articles->{$filter}($value);
-
-        }
+    public function index(): AnonymousResourceCollection{
         
-        $articles->allowedSorts(['title', 'content']);
-
-        return ArticleCollection::make(
-            $articles->jsonPaginate()
-        );
+        $articles = Article::query()->allowedFilters(['title', 'content', 'month', 'year'])
+                ->allowedSorts(['title', 'content'])
+                ->sparseFieldset()
+                ->jsonPaginate();
+        
+        return ArticleResource::collection($articles);
     }
 
-    public function show(Article $article): ArticleResource{
-        //dd($article->toArray());
+    public function show($idArticle): JsonResource{
+        $article = Article::where('id', $idArticle)
+        ->sparseFieldset()
+        ->firstOrFail();
+
         return ArticleResource::make($article);
     }
 
