@@ -24,13 +24,18 @@ class UpdateArticleTest extends TestCase
         
         $article = Article::first();
 
-        $response->assertHeader(
+        /* $response->assertHeader(
             'Location',
             route('api.v1.articles.show', $article)
-        );
+        ); */
         
+        $response->assertJsonApiResource($article, [
+            'title' => 'Update articulo',
+            'slug' => $article->slug,
+            'content' => 'Actualizar contenido del articulo'
+        ]);
 
-        $response->assertExactJson([
+        /* $response->assertExactJson([
             'data' =>[
                 'type' => 'articles',
                 'id' => (string) $article->getRouteKey(),
@@ -43,7 +48,7 @@ class UpdateArticleTest extends TestCase
                     'self' => route('api.v1.articles.show', $article)
                 ]
             ]
-        ]);
+        ]); */
         
     }
 

@@ -14,12 +14,19 @@ class ListArticlesTest extends TestCase
     /** @test */
     public function can_fetch_a_single_artique()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         $article = Article::factory()->create();
 
         $response = $this->getJson(route('api.v1.articles.show', $article));
-        //dd($response);
+
+        $response->assertJsonApiResource($article, [
+            'title' => $article->title,
+            'slug' => $article->slug,
+            'content' => $article->content
+        ]);
+
+        /* //dd($response);
         $response->assertExactJson([
             'data' =>[
                 'type' => 'articles',
@@ -33,17 +40,21 @@ class ListArticlesTest extends TestCase
                     'self' => route('api.v1.articles.show', $article)
                 ]
             ]
-        ]);
+        ]); */
     }
 
     /** @test */
     function can_fetch_all_articles(){
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         $articles = Article::factory()->count(3)->create();
 
         $response = $this->getJson(route('api.v1.articles.index'));
 
+        $response->assertJsonApiResourceCollection($articles, [
+            'title', 'slug', 'content'
+        ]);
+/* 
         $response->assertJson([
             'data' => [
                 [
@@ -86,6 +97,6 @@ class ListArticlesTest extends TestCase
             'links' =>[
                 'self' => route('api.v1.articles.index')
             ]
-        ]);
+        ]); */
     }
 }
