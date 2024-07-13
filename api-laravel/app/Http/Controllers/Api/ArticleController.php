@@ -33,7 +33,6 @@ class ArticleController extends Controller
     public function store(SaveArticleRequest $request): ArticleResource{
        
         $article = Article::create($request->validated());
-
         return ArticleResource::make($article);
     }
 

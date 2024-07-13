@@ -22,9 +22,9 @@ class Article extends Model
     protected $fillable = [
         'title',
         'slug',
-        'content',/* 
+        'content',
         'category_id',
-        'user_id', */
+        /*'user_id', */
     ];
 
     /**
