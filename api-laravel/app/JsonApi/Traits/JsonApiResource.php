@@ -9,7 +9,7 @@ trait JsonApiResource
 {
 
     abstract public function toJsonApi(): array;
-    
+
     /**
      * Transform the resource into an array.
      *
@@ -18,12 +18,17 @@ trait JsonApiResource
      */
     public function toArray($request)
     {
+        //* Agrega las relaciones del objeto
+        if($request->filled('included'))
+            $this->with['included'] = $this->getIncludes();
+
         //Estructura de la respuesta segun el objeto
 
-        //Parte entendible y ajustable
+        //* Parte entendible y ajustable
         return Document::type($this->getResourceType())
                 ->id($this->resource->getRouteKey())
                 ->attributes($this->filterAttributes($this->toJsonApi()))
+                ->relationshipsLinks($this->getRelationshipLinks())
                 ->links([
                     'self' => route('api.v1.' . $this->getResourceType() . '.show', $this->resource)
                 ])->get('data');
@@ -38,6 +43,16 @@ trait JsonApiResource
             ]
 
         ]; */
+    }
+
+    public function getIncludes(): array
+    {
+        return [];
+    }
+
+    public function getRelationshipLinks(): array
+    {
+        return [];
     }
 
     /**
@@ -65,15 +80,15 @@ trait JsonApiResource
 
         //dd($attributes);
         return array_filter($attributes,  function($value)
-            {    
+            {
                 if(request()->isNotFilled('fields'))
                     return true;
-                
+
                 $fields = explode(',', request('fields.'.$this->getResourceType()));
 
                 if($value === $this->getRoutekey())
                     return in_array($this->getRoutekeyName(), $fields);
-                
+
 
                 return $value;
             }

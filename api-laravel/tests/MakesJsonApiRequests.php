@@ -30,11 +30,11 @@ trait MakesJsonApiRequests
             try{
                 $this->assertJsonFragment([
                     'source' => ['pointer' => $pointer]
-                ]);    
+                ]);
             }catch(ExpectationFailedException $e){
                 PHPUnit::fail(
                     "Failed to find a valid JSON:API validation error for key: '{$attribute}'"
-                    .PHP_EOL.PHP_EOL. 
+                    .PHP_EOL.PHP_EOL.
                     $e->getMessage()
                 );
             }
@@ -42,13 +42,13 @@ trait MakesJsonApiRequests
             try{
                 $this->assertJsonStructure([
                     'errors' => [
-                        ['title', 'detail', 'source' => ['pointer']] 
+                        ['title', 'detail', 'source' => ['pointer']]
                         ]
                 ]);
             }catch(ExpectationFailedException $e){
                 PHPUnit::fail(
                     "Failed to find a valid JSON:API error response"
-                    .PHP_EOL.PHP_EOL. 
+                    .PHP_EOL.PHP_EOL.
                     $e->getMessage()
                 );
             }
@@ -88,9 +88,9 @@ trait MakesJsonApiRequests
         return Document::type($type)
                 ->id($id)
                 ->attributes($data)
-                ->relationships($data['_relationships'] ?? [])
+                ->relationshipsData($data['_relationships'] ?? [])
                 ->toArray();
-                
+
         /* return [
             'data' => array_filter([
                 'type' => $type,

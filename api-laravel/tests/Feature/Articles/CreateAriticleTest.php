@@ -26,30 +26,21 @@ class CreateAriticleTest extends TestCase
                 'category' => $category
             ]
         ])->assertCreated();
-        
+
         $article = Article::first();
 
         $response->assertHeader(
             'Location',
             route('api.v1.articles.show', $article)
         );
-        
 
-        $response->assertExactJson([
-            'data' =>[
-                'type' => 'articles',
-                'id' => (string) $article->getRouteKey(),
-                'attributes' => [
-                    'title' => 'Nuevo articulo',
-                    'slug' => 'nuevo-articulo',
-                    'content' => 'Contenido del articulo'
-                ],
-                'links' => [
-                    'self' => route('api.v1.articles.show', $article)
-                ]
-            ]
+
+        $response->assertJsonApiResource($article, [
+            'title' => 'Nuevo articulo',
+            'slug' => 'nuevo-articulo',
+            'content' => 'Contenido del articulo'
         ]);
-        
+
     }
 
     /** @test */
@@ -63,7 +54,7 @@ class CreateAriticleTest extends TestCase
         ]);
 
         $response->assertJsonApiValidationErrors('title');
-        
+
     }
 
     /** @test */
@@ -77,7 +68,7 @@ class CreateAriticleTest extends TestCase
         ]);
 
         $response->assertJsonApiValidationErrors('slug');
-        
+
     }
 
     /** @test */
@@ -92,7 +83,7 @@ class CreateAriticleTest extends TestCase
         ]);
 
         $response->assertJsonApiValidationErrors('slug');
-        
+
     }
 
     /** @test */
@@ -105,7 +96,7 @@ class CreateAriticleTest extends TestCase
         ]);
 
         $response->assertJsonApiValidationErrors('slug');
-        
+
     }
 
      /** @test */
@@ -118,7 +109,7 @@ class CreateAriticleTest extends TestCase
         ])->assertSee(trans('validation.no_underscores', ['attribute' => 'data.attributes.slug']));
 
         $response->assertJsonApiValidationErrors('slug');
-        
+
     }
 
      /** @test */
@@ -131,7 +122,7 @@ class CreateAriticleTest extends TestCase
         ])->assertSee(trans('validation.no_starting_dashes', ['attribute' => 'data.attributes.slug']));
 
         $response->assertJsonApiValidationErrors('slug');
-        
+
     }
 
      /** @test */
@@ -144,7 +135,7 @@ class CreateAriticleTest extends TestCase
         ])->assertSee(trans('validation.no_ending_dashes', ['attribute' => 'data.attributes.slug']));
 
         $response->assertJsonApiValidationErrors('slug');
-        
+
     }
 
     /** @test */
@@ -163,6 +154,6 @@ class CreateAriticleTest extends TestCase
         ]);
 
         $response->assertJsonApiValidationErrors('content');
-        
+
     }
 }

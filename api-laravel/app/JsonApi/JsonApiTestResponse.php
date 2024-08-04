@@ -3,8 +3,8 @@ namespace App\JsonApi;
 
 use Closure;
 use Illuminate\Support\Str;
+use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\ExpectationFailedException;
-
 
     class JsonApiTestResponse
     {
@@ -15,33 +15,33 @@ use PHPUnit\Framework\ExpectationFailedException;
                 $pointer = Str::of($attribute)->startsWith('data')
                     ?"/". str_replace('.', '/', $attribute)
                     :"/data/attributes/{$attribute}";
-    
+
                 try{
                     $this->assertJsonFragment([
                         'source' => ['pointer' => $pointer]
-                    ]);    
+                    ]);
                 }catch(ExpectationFailedException $e){
                     PHPUnit::fail(
                         "Failed to find a valid JSON:API validation error for key: '{$attribute}'"
-                        .PHP_EOL.PHP_EOL. 
+                        .PHP_EOL.PHP_EOL.
                         $e->getMessage()
                     );
                 }
-    
+
                 try{
                     $this->assertJsonStructure([
                         'errors' => [
-                            ['title', 'detail', 'source' => ['pointer']] 
+                            ['title', 'detail', 'source' => ['pointer']]
                             ]
                     ]);
                 }catch(ExpectationFailedException $e){
                     PHPUnit::fail(
                         "Failed to find a valid JSON:API error response"
-                        .PHP_EOL.PHP_EOL. 
+                        .PHP_EOL.PHP_EOL.
                         $e->getMessage()
                     );
                 }
-    
+
                 return $this->assertHeader('content-type', 'application/vnd.api+json')->assertStatus(422);
             };
         }
@@ -63,6 +63,34 @@ use PHPUnit\Framework\ExpectationFailedException;
                     'Location',
                     route('api.v1.'.$model->getResourceType().'.show', $model)
                 );
+            };
+        }
+
+        /**
+         * Forma facil de testiar las relaciones
+         * @return \Closure
+         */
+        public function assertJsonApiRelationshipLinks(): Closure
+        {
+            return function($model, $relations){
+                /** @var TestResponse $this */
+
+                foreach ($relations as $relation) {
+                    $this->assertJson([
+                        'data' => [
+                            'relationships' => [
+                                $relation => [
+                                    'links' => [
+                                        'self' => route("api.v1.{$model->getResourceType()}.relationships.{$relation}", $model),
+                                        'related' => route("api.v1.{$model->getResourceType()}.{$relation}", $model)
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]);
+                }
+
+                return $this;
             };
         }
 

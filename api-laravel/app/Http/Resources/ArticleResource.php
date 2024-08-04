@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ArticleResource extends JsonResource
 {
     use JsonApiResource;
-    
+
     public function toJsonApi():array
     {
         return [
@@ -18,7 +18,19 @@ class ArticleResource extends JsonResource
         ];
     }
 
-/* 
+    public function getRelationshipLinks(): array
+    {
+        return ['category'];
+    }
+
+    public function getIncludes(): array
+    {
+        return [
+            CategoryResource::make($this->resource->category)
+        ];
+    }
+
+/*
     /**
      * Transform the resource into an array.
      *
@@ -44,7 +56,7 @@ class ArticleResource extends JsonResource
             'Location',
             route('api.v1.' . $this->getResourceType() . '.show', $this->resource)
         );
-        
+
         /* return parent::toResponse($request)->withHeaders([
             'Location' => route('api.v1.'.$this->getResourceType().'.show', $this->resource)
         ]); *
@@ -55,15 +67,15 @@ class ArticleResource extends JsonResource
 
         //dd($attributes);
         return array_filter($attributes,  function($value)
-            {    
+            {
                 if(request()->isNotFilled('fields'))
                     return true;
-                
+
                 $fields = explode(',', request('fields.'.$this->getResourceType()));
 
                 if($value === $this->getRoutekey())
                     return in_array($this->getRoutekeyName(), $fields);
-                
+
 
                 return $value;
             }

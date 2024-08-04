@@ -22,7 +22,7 @@ class DocumentTest extends TestCase
                     ->id('articles-id')
                     ->attributes([
                         'title' => 'article title'
-                    ])->relationships([
+                    ])->relationshipsData([
                         'category' => $category
                     ])->toArray();
 
