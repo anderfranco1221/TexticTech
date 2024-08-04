@@ -19,7 +19,7 @@ trait JsonApiResource
     public function toArray($request)
     {
         //* Agrega las relaciones del objeto
-        if($request->filled('included'))
+        if($request->filled('include'))
             $this->with['included'] = $this->getIncludes();
 
         //Estructura de la respuesta segun el objeto
@@ -98,11 +98,21 @@ trait JsonApiResource
     /**
      * Obtiene los links en las coleciones
      */
-    public static function collection($resource): AnonymousResourceCollection
+    public static function collection($resources): AnonymousResourceCollection
     {
-        $collection = parent::collection($resource);
+        $collection = parent::collection($resources);
 
-        $collection->with['links'] = ['self' => $resource->path()];
+        //* Insercion de las relaciones
+        if(request()->filled('include'))
+        {
+            foreach ($resources as $resource) {
+                foreach($resource->getIncludes() as $include){
+                    $collection->with['included'][] = $include;
+                }
+            }
+        }
+
+        $collection->with['links'] = ['self' => $resources->path()];
 
         return $collection;
     }
