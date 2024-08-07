@@ -13,17 +13,20 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ArticleController extends Controller
 {
     public function index(): AnonymousResourceCollection{
-        
-        $articles = Article::query()->allowedFilters(['title', 'content', 'month', 'year'])
+
+        $articles = Article::query()
+                ->allowedIncludes(["category"])
+                ->allowedFilters(['title', 'content', 'month', 'year'])
                 ->allowedSorts(['title', 'content'])
                 ->sparseFieldset()
                 ->jsonPaginate();
-        
+
         return ArticleResource::collection($articles);
     }
 
     public function show($idArticle): JsonResource{
         $article = Article::where('id', $idArticle)
+        ->allowedIncludes(["category"])
         ->sparseFieldset()
         ->firstOrFail();
 
@@ -31,7 +34,7 @@ class ArticleController extends Controller
     }
 
     public function store(SaveArticleRequest $request): ArticleResource{
-       
+
         $article = Article::create($request->validated());
         return ArticleResource::make($article);
     }

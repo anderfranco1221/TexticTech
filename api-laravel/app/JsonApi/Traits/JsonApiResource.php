@@ -4,6 +4,7 @@ namespace App\JsonApi\Traits;
 
 use App\JsonApi\Document;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\MissingValue;
 
 trait JsonApiResource
 {
@@ -19,18 +20,26 @@ trait JsonApiResource
     public function toArray($request)
     {
         //* Agrega las relaciones del objeto
-        if($request->filled('include'))
+        if($request->filled('include')){
+            foreach($this->getIncludes() as $include){
+                if($include->resource instanceof MissingValue)
+                    continue;
+
+                $this->with['included'][] = $include;
+            }
+
             $this->with['included'] = $this->getIncludes();
+        }
 
         //Estructura de la respuesta segun el objeto
 
         //* Parte entendible y ajustable
-        return Document::type($this->getResourceType())
+        return Document::type($this->resource->getResourceType())
                 ->id($this->resource->getRouteKey())
                 ->attributes($this->filterAttributes($this->toJsonApi()))
                 ->relationshipsLinks($this->getRelationshipLinks())
                 ->links([
-                    'self' => route('api.v1.' . $this->getResourceType() . '.show', $this->resource)
+                    'self' => route('api.v1.' . $this->resource->getResourceType() . '.show', $this->resource)
                 ])->get('data');
 
         /*  //Parte inicial
@@ -107,6 +116,9 @@ trait JsonApiResource
         {
             foreach ($resources as $resource) {
                 foreach($resource->getIncludes() as $include){
+                    if($include->resource instanceof MissingValue)
+                        continue;
+
                     $collection->with['included'][] = $include;
                 }
             }
