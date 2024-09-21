@@ -16,7 +16,7 @@ class ArticleController extends Controller
 
         $articles = Article::query()
                 ->allowedIncludes(["category"])
-                ->allowedFilters(['title', 'content', 'month', 'year'])
+                ->allowedFilters(['title', 'content', 'month', 'year', 'categories'])
                 ->allowedSorts(['title', 'content'])
                 ->sparseFieldset()
                 ->jsonPaginate();

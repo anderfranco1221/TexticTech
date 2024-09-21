@@ -3,6 +3,7 @@
 namespace Tests\Feature\Articles;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -26,7 +27,7 @@ class FilterArticlesTest extends TestCase
                 'title' => 'laravel'
             ]
         ]);
-        
+
         $this->getJson($url)
             ->assertJsonCount(1, 'data')
             ->assertSee('Aprendible laravel')
@@ -49,7 +50,7 @@ class FilterArticlesTest extends TestCase
                 'content' => 'laravel'
             ]
         ]);
-        
+
         $this->getJson($url)
             ->assertJsonCount(1, 'data')
             ->assertSee('Aprendible laravel')
@@ -74,7 +75,7 @@ class FilterArticlesTest extends TestCase
                 'year' => '2021'
             ]
         ]);
-        
+
         $this->getJson($url)
             ->assertJsonCount(1, 'data')
             ->assertSee('Aprendible laravel 2021')
@@ -104,12 +105,34 @@ class FilterArticlesTest extends TestCase
                 'month' => '3'
             ]
         ]);
-        
+
         $this->getJson($url)
             ->assertJsonCount(2, 'data')
             ->assertSee('Aprendible laravel 3')
             ->assertSee('Aprendible laravel 3 * 3')
             ->assertDontSee('Other Aprendible 5');
+    }
+
+    /** @test */
+    public function can_filter_articles_by_category()
+    {
+        $articles = Article::factory()->count(2)->create();
+        $cat1 = Category::factory()->hasArticles(3)->create(['slug' =>'cat-1']);
+        $cat2 = Category::factory()->hasArticles()->create(['slug' =>'cat-2']);
+
+        $url = route('api.v1.articles.index', [
+            'filter' =>[
+                'categories' => 'cat-1,cat-2'
+            ]
+        ]);
+
+        $this->getJson($url)
+            ->assertJsonCount(4, 'data')
+            ->assertSee($cat1->articles[0]->title)
+            ->assertSee($cat1->articles[1]->title)
+            ->assertSee($cat1->articles[2]->title)
+            ->assertSee($cat2->articles[0]->title)
+            ->assertDontSee($articles[0]->title);
     }
 
     /** @test */
@@ -122,7 +145,7 @@ class FilterArticlesTest extends TestCase
                 'unkown' => 'unkown'
             ]
         ]);
-        
+
         $this->getJson($url)->assertStatus(400);
     }
 }

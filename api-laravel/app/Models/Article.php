@@ -69,4 +69,13 @@ class Article extends Model
     public function scopeContent(Builder $query, $value){
         $query->where('content', 'LIKE',  '%' . $value . '%');
     }
+
+    public function scopeCategories(Builder $query, $categories)
+    {
+        $categoriesSlugs = explode(',', $categories);
+
+        $query->whereHas('category', function($q) use($categoriesSlugs){
+            $q->whereIn('slug', $categoriesSlugs);
+        });
+    }
 }
