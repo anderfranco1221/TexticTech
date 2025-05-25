@@ -2,24 +2,39 @@
 
 namespace Tests\Feature\Categoria;
 
+use App\Models\Categoria;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CreateCategoriaTest extends TestCase
 {
+    use RefreshDatabase;
 
-    //TODO:Crear categoria
-    //TODO:Validacion de formularios
     //TODO: Validacion de permisos ?
-
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
+    /** @test */
+    public function can_create_category()
     {
-        $response = $this->get('/');
+        $response = $this->postJson(route("api.categoria.store"), [
+            "nombre" => "Prueba 1",
+            "descripcion" => "Descripcion de la categoria"
+        ])->assertCreated();
 
-        $response->assertStatus(200);
+        $categoria = Categoria::first();
+
+        $response->assertHeader(
+            "Location",
+            route("api.categoria.show", $categoria)
+        );
+    }
+
+    /** @test */
+    public function name_is_requered()
+    {
+        $response = $this->postJson(route("api.categoria.store"), [
+            "descripcion" => "descripcion de la categoria"
+        ]);
+
+        $response->assertJsonApiValidationErrors("nombre");
     }
 }
