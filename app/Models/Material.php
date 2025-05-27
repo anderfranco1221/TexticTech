@@ -9,6 +9,11 @@ class Material extends Model
 {
     use HasFactory;
 
+    protected $table = "material";
+    public $resourceType = 'materiales';
+
+    protected $guarded = [];
+
     protected $fillable = [
         "codigo",
         "nombre",

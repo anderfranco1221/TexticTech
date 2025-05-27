@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveMaterialRequest;
+use App\Http\Resources\MaterialResource;
+use App\Models\Material;
 use Illuminate\Http\Request;
 
 class MaterialController extends Controller
@@ -25,9 +28,10 @@ class MaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveMaterialRequest $request): MaterialResource
     {
-        //
+        $material = Material::create($request->validated());
+        return MaterialResource::make($material);
     }
 
     /**

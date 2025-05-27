@@ -48,7 +48,7 @@ trait MakesJsonApiRequests
     public function getFormattedDatta($uri, array $data): array
     {
         $path = parse_url($uri)['path'];
-        $type = (string)Str::of($path)->after('api/v1/')->before('/');
+        $type = (string)Str::of($path)->after('api/')->before('/');
         $id = (string)Str::of($path)->after($type)->replace('/', '');
 
         return Document::type($type)
