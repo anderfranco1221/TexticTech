@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Codigo;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SaveMaterialRequest extends FormRequest
@@ -22,7 +23,7 @@ class SaveMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "data.attributes.codigo" => ["required", "alpha_dash"],
+            "data.attributes.codigo" => ["required", "alpha_dash", new Codigo()],
             "data.attributes.nombre" => ["required"],
             "data.attributes.descripcion" => [],
             "data.attributes.estado" => [],
