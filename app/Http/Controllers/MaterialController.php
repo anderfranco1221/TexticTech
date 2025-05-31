@@ -2,56 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveMaterialRequest;
+use App\Http\Resources\MaterialResource;
+use App\Models\Material;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class MaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        //
+        $materiales = Material::query()
+            ->allowedFilters(["codigo", "nombre", "estado"])
+            ->allowedSorts(["codigo", "nombre"])
+            ->sparseFieldset()
+            ->jsonPaginate();
+
+        return MaterialResource::collection($materiales);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveMaterialRequest $request): MaterialResource
     {
-        //
+        $material = Material::create($request->validated());
+        return MaterialResource::make($material);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($idMaterial): JsonResource
     {
-        //
+        $material = Material::where("id", $idMaterial)
+        ->sparseFieldset()
+        ->firstOrFail();
+
+        return MaterialResource::make($material);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Material $materiale, SaveMaterialRequest $request): MaterialResource
     {
-        //
+        $materiale->update($request->validated());
+        return MaterialResource::make($materiale);
     }
 
     /**

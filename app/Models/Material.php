@@ -9,6 +9,11 @@ class Material extends Model
 {
     use HasFactory;
 
+    protected $table = "material";
+    public $resourceType = 'materiales';
+
+    protected $guarded = [];
+
     protected $fillable = [
         "codigo",
         "nombre",
@@ -18,4 +23,7 @@ class Material extends Model
         "unidad"
     ];
 
+    protected $casts = [
+        'id' => 'integer',
+    ];
 }

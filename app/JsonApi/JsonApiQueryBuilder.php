@@ -3,7 +3,7 @@
 namespace App\JsonApi;
 use Closure;
 use Illuminate\Support\Str;
-
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
     class JsonApiQueryBuilder
     {
@@ -38,7 +38,8 @@ use Illuminate\Support\Str;
                 /** @var Builder $this */
                 foreach(request('filter', []) as $filter => $value){
 
-                    abort_unless(in_array($filter, $allowedFilters), 400);
+                    if(! in_array($filter, $allowedFilters))
+                        throw new BadRequestHttpException("The filter '{$filter}' is not in the '{$this->getResourceType()}' resource.");
 
                     $this->hasNamedScope($filter)
                         ? $this->{$filter}($value)
