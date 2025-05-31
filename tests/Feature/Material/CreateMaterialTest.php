@@ -12,7 +12,6 @@ class CreateMaterialTest extends TestCase
     use RefreshDatabase;
 
     //TODO: creacion de materiales donde respecte el codigo unico
-    //TODO:
 
     /** @test */
     public function can_create_materiales()

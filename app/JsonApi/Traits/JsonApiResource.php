@@ -23,14 +23,13 @@ trait JsonApiResource
             $this->with['included'] = $this->getIncludes();
 
         //Estructura de la respuesta segun el objeto
-
         //* Parte entendible y ajustable
         return Document::type($this->getResourceType())
                 ->id($this->resource->getRouteKey())
                 ->attributes($this->filterAttributes($this->toJsonApi()))
                 //->relationshipsLinks($this->getRelationshipLinks())
                 ->links([
-                    'self' => route('api.' . $this->getResourceType() . '.show', $this->resource)
+                    'self' => route('api.' . $this->resource->getResourceType() . '.show', $this->resource)
                 ])->get('data');
     }
 

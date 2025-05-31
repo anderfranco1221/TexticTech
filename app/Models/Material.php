@@ -23,4 +23,7 @@ class Material extends Model
         "unidad"
     ];
 
+    protected $casts = [
+        'id' => 'integer',
+    ];
 }
