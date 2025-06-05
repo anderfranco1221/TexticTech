@@ -44,7 +44,11 @@ class FilterMaterialTest extends TestCase
             ]
         ]);
 
-        $this->getJson($url)->dd()->assertStatus(400);
+        $this->getJson($url)->assertJsonApiError(
+            title: "Bad Request",
+            detail: "The filter 'unkown' is not in the 'materiales' resource.",
+            status: "400"
+        );
     }
     /* "codigo" => $this->faker->numerify('INO-###'),
     "nombre" => $this->faker->words(2, true),
