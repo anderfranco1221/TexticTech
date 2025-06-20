@@ -11,6 +11,9 @@ class Producto extends Model
 
     public $timestamps = false;
 
+    public $table = "producto";
+    public $resourceType = 'productos';
+
     protected $fillable = [
         "codigo",
         "nombre",

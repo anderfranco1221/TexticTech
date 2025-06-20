@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveProductoRequest;
+use App\Http\Resources\ProductoResource;
+use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductoController extends Controller
 {
@@ -25,17 +29,23 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveProductoRequest $request): ProductoResource
     {
-        //
+        $producto = Producto::create($request->validated());
+        return ProductoResource::make($producto);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id): JsonResource
     {
-        //
+        $producto = Producto::where("id", $id)
+            ->allowedIncludes(["categoria"])
+            ->sparseFieldset()
+            ->firstOrFail();
+
+        return $producto;
     }
 
     /**

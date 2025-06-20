@@ -22,6 +22,7 @@ trait JsonApiResource
         if($request->filled('included'))
             $this->with['included'] = $this->getIncludes();
 
+        
         //Estructura de la respuesta segun el objeto
         //* Parte entendible y ajustable
         return Document::type($this->getResourceType())

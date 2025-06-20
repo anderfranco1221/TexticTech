@@ -25,9 +25,9 @@ class ProductoFactory extends Factory
             "codigo" => $this->faker->numerify('PRO-###'),
             "nombre" => $this->faker->words(2, true),
             "descripcion" => $this->faker->sentence,
+            "precio" => $this->faker->randomFloat(2),
             "estado" => true,
             "stock" => 0,
-            "estado" => true,
             "id_categoria" => Categoria::factory(),
             "id_usuario" => 0,
         ];
