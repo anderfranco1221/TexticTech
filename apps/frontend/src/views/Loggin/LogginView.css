@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.background-loggin{
+    @apply flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900;
+}
+
+.card-loggin{
+    @apply flex flex-col items-center justify-center w-full max-w-md p-6 bg-white rounded-lg shadow-md dark:bg-gray-800;
+}
+
+.card-loggin label{
+    @apply block font-medium text-gray-700 dark:text-gray-300;
+}
+
+.card-loggin input{
+    @apply w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-blue-500;
+}
+
+.card-loggin button{
+    @apply w-full rounded-md bg-sky-500 px-5 py-2 text-sm leading-5 font-semibold text-white hover:bg-sky-700 focus:outline focus:outline-sky-500;
+}
