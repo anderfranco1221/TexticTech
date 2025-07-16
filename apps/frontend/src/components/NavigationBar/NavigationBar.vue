@@ -47,26 +47,70 @@
                             <div>
 
                             </div>
-                            <li class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-                                <button type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true"
-                                    >
+                            <div class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">
+                                <button type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('articles')">
                                     Articulos
                                 </button>
-                                <!-- <div role="menu" aria-orientation="vertical" aria-labelledby="menu-articulos" tabindex="-1"
-                                    class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
+                                <div role="menu" aria-orientation="vertical" aria-labelledby="menu-articulos" tabindex="-1"
+                                    class="absolute z-10 mt-2 w-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden"
+                                    v-show="dropdown.articles">
                                     <div class="py-1" role="none">
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">Account settings</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Support</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">License</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
+                                            Categoria
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">
+                                            Productos
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">
+                                            Materiales
+                                        </a>
                                     </div>
-                                </div> -->
-                            </li>
+                                </div>
+                            </div>
+                            <div class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">
+                                <button type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('orders')">
+                                    Órdenes
+                                </button>
+                                <div role="menu" aria-orientation="vertical" aria-labelledby="menu-articulos" tabindex="-1"
+                                    class="absolute z-10 mt-2 w-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden"
+                                    v-show="dropdown.orders">
+                                    <div class="py-1" role="none">
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
+                                            Órdenes de venta
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">
+                                            Órdenes de Compra
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">
+                                            Órdenes de Producción
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                             <a href="#"
-                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Órdenes</a>
-                            <a href="#"
-                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Empresas</a>
-                            <a href="#"
-                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Administración</a>
+                                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">Empresas</a>
+                            <div class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">
+                                <button type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('admin')">
+                                    Administración
+                                </button>
+
+                                <div role="menu" aria-orientation="vertical" aria-labelledby="menu-articulos" tabindex="-1"
+                                    class="absolute z-10 mt-2 w-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden"
+                                    v-show="dropdown.admin">
+                                    <div class="py-1" role="none">
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
+                                            Configuracion de productos
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">
+                                            Órdenes de Compra
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">
+                                            Usuarios
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
