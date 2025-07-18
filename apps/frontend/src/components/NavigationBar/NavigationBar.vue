@@ -42,33 +42,31 @@
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
                             <!-- Current: "bg-secondary text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="#" class="rounded-md bg-secondary px-3 py-2 text-sm font-medium text-white"
-                                aria-current="page">Dashboard</a>
-                            <div>
+                            <router-link to="/dashboard" class="rounded-md bg-secondary px-3 py-2 text-sm font-medium text-white"
+                                aria-current="page">Dashboard</router-link>
 
-                            </div>
                             <div class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">
-                                <button type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('articles')">
+                                <button class="cursor-pointer" type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('articles')">
                                     Articulos
                                 </button>
                                 <div role="menu" aria-orientation="vertical" aria-labelledby="menu-articulos" tabindex="-1"
                                     class="absolute z-10 mt-2 w-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden"
                                     v-show="dropdown.articles">
                                     <div class="py-1" role="none">
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
+                                        <router-link to="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
                                             Categoria
-                                        </a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">
+                                        </router-link>
+                                        <router-link to="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
                                             Productos
-                                        </a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">
+                                        </router-link>
+                                        <router-link to="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0"> 
                                             Materiales
-                                        </a>
+                                        </router-link>
                                     </div>
                                 </div>
                             </div>
                             <div class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">
-                                <button type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('orders')">
+                                <button class="cursor-pointer" type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('orders')">
                                     Órdenes
                                 </button>
                                 <div role="menu" aria-orientation="vertical" aria-labelledby="menu-articulos" tabindex="-1"
@@ -90,7 +88,7 @@
                             <a href="#"
                                 class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">Empresas</a>
                             <div class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-white">
-                                <button type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('admin')">
+                                <button class="cursor-pointer" type="button" id="menu-articulos" aria-expanded="true" aria-haspopup="true" @click="toggleDropdown('admin')">
                                     Administración
                                 </button>
 

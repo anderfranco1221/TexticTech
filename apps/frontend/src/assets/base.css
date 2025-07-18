@@ -20,7 +20,8 @@
     --color-primary: #2555a1;
     /* --color-primary: #3B82F6; */
     /* --color-secondary: #60A5FA; */
-    --color-secondary: #3972b8;
+    /* --color-secondary: #3972b8; */
+    --color-secondary: #1789f3b0;
     --color-accent: #2C3547;
     --color-muted: #2c3547;
     --color-border: #374151;
@@ -36,6 +37,16 @@
 .bg-muted { background-color: var(--color-muted); }
 .border-border { border-color: var(--color-border); }
 
+.button-primary {
+  background-color: var(--color-secondary);
+  color: var(--color-background); /* O color: white; para asegurar buen contraste */
+  border: 1px solid var(--color-secondary); /* Opcional: borde del mismo color */
+  /* Otros estilos como padding, border-radius, font-weight, etc. */
+}
+
+.button-primary:hover {
+  filter: brightness(1.1); /* Ligero brillo al pasar el ratón */
+}
 
 *,
 *::before,

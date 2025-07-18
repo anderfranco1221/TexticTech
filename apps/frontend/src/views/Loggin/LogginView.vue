@@ -20,7 +20,7 @@
                 <input class="bg-muted" type="password" placeholder="Contraseña" id="password" v-model="password"/>
             </div>
             <div class="mt-6 pt-8">
-                <button @click="handleSubmit">
+                <button class="button-primary" @click="handleSubmit">
                     Ingresar
                 </button>
             </div>

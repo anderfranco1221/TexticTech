@@ -17,5 +17,5 @@
 }
 
 .card-loggin button{
-    @apply w-full rounded-md bg-sky-500 px-5 py-2 text-sm leading-5 font-semibold text-white hover:bg-sky-700 focus:outline focus:outline-sky-500;
+    @apply w-full rounded-md px-5 py-2 text-sm leading-5 font-semibold text-white  focus:outline ;
 }

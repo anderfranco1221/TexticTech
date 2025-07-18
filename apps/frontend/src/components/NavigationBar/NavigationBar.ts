@@ -31,6 +31,7 @@ export default defineComponent({
                     this.dropdown[key] = false;
                 }
             }
+            //console.log(this.dropdown);
             
             this.dropdown[dropdownName] = !this.dropdown[dropdownName];
         },
