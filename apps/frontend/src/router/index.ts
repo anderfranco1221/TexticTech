@@ -3,17 +3,10 @@ import HomeView from '../views/HomeView.vue'
 import LogginView from '../views/Loggin/LogginView.vue'
 import DashboardView from '../views/Dashboard/DashboardView.vue'
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-      meta: {
-        requirestAuth: true, // This route requires authentication
-      },
-    },
     {
       path: '/login',
       name: 'login',
@@ -23,12 +16,24 @@ const router = createRouter({
       },
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: DashboardView,
+      path: '/',
+      name: 'home',
+      component: HomeView,
       meta: {
         requirestAuth: true, // This route requires authentication
       },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: DashboardView,
+        },
+        {
+          path: 'categories',
+          name: 'categories',
+          component: () => import('../views/Articles/Category/CategoryView.vue'),
+        }
+      ]
     },
     {
       path: '/about',

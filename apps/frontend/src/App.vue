@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import NavigationBar  from "./components/NavigationBar/NavigationBar.vue";
+  //import NavigationBar  from "./components/NavigationBar/NavigationBar.vue";
   //import WelcomeItem from './WelcomeItem.vue'
   import { routeLocationKey, RouterLink, RouterView } from 'vue-router'
   import { ref, onMounted } from 'vue'
@@ -10,7 +10,7 @@
 
 
   <div v-if="$route.meta.requirestAuth">
-    <NavigationBar />
+    <!-- <NavigationBar /> -->
   </div>
   
   <RouterView />

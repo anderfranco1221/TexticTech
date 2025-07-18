@@ -1,5 +1,6 @@
 import { defineComponent, ref, computed } from "vue";
 import "./LogginView.css";
+import router from "@/router";
 
 export default defineComponent({
     name: "LogginView",
@@ -31,7 +32,8 @@ export default defineComponent({
             
             if (isFormValid.value) {
                 console.log("Form submitted with:", { email: email.value, password: password.value });
-                // Add your login logic here
+                //TODO: Add your login logic here
+                router.push("/dashboard");
             } else {
                 console.error("Form is invalid");
             }
