@@ -1,4 +1,5 @@
 import { defineComponent, ref, computed } from 'vue'
+import { useRoute } from 'vue-router';
 interface PermisosUsuario {
   articles: boolean;
   orders: boolean;
@@ -18,11 +19,17 @@ export default defineComponent({
                 users: false,
                 companies: false,
                 admin: false
-            } as PermisosUsuario
+            } as PermisosUsuario,
+            route: useRoute(),
         }
     },
     mounted() {
-        console.log(this.$route.name);
+        console.log(this.route.name);
+    },
+    computed: {
+        routeName() {
+            return this.route.name;
+        }
     },
     methods: {
         toggleDropdown(dropdownName: keyof PermisosUsuario) {

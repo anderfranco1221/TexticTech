@@ -1,9 +1,9 @@
 <script setup lang="ts">
+  import NavigationBar  from "../components/NavigationBar/NavigationBar.vue";
 </script>
 
 <template>
-  <h1>Pagina de presentacion</h1>
-  <!-- <main>
-    <TheWelcome />
-  </main> -->
+  <NavigationBar />
+
+  <router-view></router-view>
 </template>
