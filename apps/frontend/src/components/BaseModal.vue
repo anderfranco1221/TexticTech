@@ -10,9 +10,9 @@
         </div>
 
         <div tabindex="0"
-          class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+          class="flex lg:min-h-full md:min-h-2/2 items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
           <div id="modalContent"
-            class="relative transform overflow-hidden rounded-lg bg-background text-foreground text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+            class="relative transform overflow-hidden rounded-lg bg-background-secondary text-foreground text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full data-closed:sm:translate-y-0 data-closed:sm:scale-95"
             :class="withClass">
             <header class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4" v-if="hasHeaderSlot || title">
               <!-- Header Slot -->
@@ -29,22 +29,23 @@
 
             <!-- Modal Content -->
             <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <div class="sm:flex sm:items-start">
-                <div class="mt-2">
-                  <slot></slot>
-                </div>
+              <div class="sm:items-start">
+                <slot></slot>
               </div>
             </div>
             <footer v-if="hasFooterSlot || showDefaultFooter"
               class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <slot name="footer">
-                <button type="button" command="close" commandfor="dialog"
-                  class="mt-3! ml-2! inline-flex w-full justify-center rounded-md bg-muted px-3 py-2 text-sm font-semibold text-foreground shadow-xs  ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer"
+                <div class="grid md:grid-cols-2 sm:grid-cols-1">
+                  <button type="button" command="close" commandfor="dialog"
+                  class="mt-3! m-1! inline-flex w-full justify-center rounded-md bg-secondary px-3 py-2 text-sm font-semibold text-foreground shadow-xs ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer"
+                  @click="confirmModal">Guardar</button>
+
+                  <button type="button" command="close" commandfor="dialog"
+                  class="mt-3! m-1! inline-flex w-full justify-center rounded-md bg-muted px-3 py-2 text-sm font-semibold text-foreground shadow-xs  ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer"
                   @click="closeModal">Cancelar</button>
 
-                <button type="button" command="close" commandfor="dialog"
-                  class="mt-3! inline-flex w-full justify-center rounded-md bg-secondary px-3 py-2 text-sm font-semibold text-foreground shadow-xs ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer"
-                  @click="confirmModal">Guardar</button>
+                </div>
               </slot>
             </footer>
           </div>
