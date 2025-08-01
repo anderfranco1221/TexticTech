@@ -16,7 +16,7 @@ class UpdateMaterialTest extends TestCase
     {
         $material = Material::factory()->create();
 
-        $response = $this->patchJson(route('api.materiales.update', $material), [
+        $response = $this->patchJson(route('api.materials.update', $material), [
             "codigo" => $material->codigo,
             "nombre" => "Material actualizado",
             "descripcion" => "Descripcion del material",
@@ -42,7 +42,7 @@ class UpdateMaterialTest extends TestCase
     {
         $material = Material::factory()->create();
 
-        $response = $this->patchJson(route('api.materiales.update', $material), [
+        $response = $this->patchJson(route('api.materials.update', $material), [
                 "nombre" => "Material actualizado",
                 "descripcion" => "Descripcion del material",
                 "estado" => true,
@@ -59,7 +59,7 @@ class UpdateMaterialTest extends TestCase
     {
         $material = Material::factory()->create();
 
-        $response = $this->patchJson(route('api.materiales.update', $material), [
+        $response = $this->patchJson(route('api.materials.update', $material), [
             "codigo" => "INO-001",
             "descripcion" => "Descripcion del material",
             "estado" => true,
@@ -75,7 +75,7 @@ class UpdateMaterialTest extends TestCase
     {
         $material = Material::factory()->create();
 
-        $response = $this->patchJson(route('api.materiales.update', $material), [
+        $response = $this->patchJson(route('api.materials.update', $material), [
             "codigo" => "INO-001",
             "nombre" => "Material",
             "descripcion" => "Descripcion del material",

@@ -16,7 +16,7 @@ class ListMaterialTest extends TestCase
     {
         $material = Material::factory()->create();
 
-        $response = $this->getJson(route("api.materiales.show", $material));
+        $response = $this->getJson(route("api.materials.show", $material));
 
         $response->assertJsonApiResource($material, [
             "codigo" => $material->codigo,
@@ -33,7 +33,7 @@ class ListMaterialTest extends TestCase
     {
         $materiales = Material::factory()->count(3)->create();
 
-        $response = $this->getJson(route("api.materiales.index"));
+        $response = $this->getJson(route("api.materials.index"));
 
         $response->assertJsonApiResourceCollection($materiales, [
             "codigo", "nombre", "descripcion", "estado", "stock","unidad"

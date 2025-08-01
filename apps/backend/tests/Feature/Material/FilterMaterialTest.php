@@ -21,7 +21,7 @@ class FilterMaterialTest extends TestCase
             "nombre" => "Otro material"
         ]);
 
-        $url = route("api.materiales.index", [
+        $url = route("api.materials.index", [
             "filter" => [
                 "nombre"=> "1"
             ]
@@ -38,7 +38,7 @@ class FilterMaterialTest extends TestCase
     {
         Material::factory()->count(2)->create();
 
-        $url = route("api.materiales.index", [
+        $url = route("api.materials.index", [
             'filter' =>[
                 'unkown' => 'unkown'
             ]
@@ -46,7 +46,7 @@ class FilterMaterialTest extends TestCase
 
         $this->getJson($url)->assertJsonApiError(
             title: "Bad Request",
-            detail: "The filter 'unkown' is not in the 'materiales' resource.",
+            detail: "The filter 'unkown' is not in the 'materials' resource.",
             status: "400"
         );
     }

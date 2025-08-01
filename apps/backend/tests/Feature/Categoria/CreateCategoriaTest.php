@@ -15,7 +15,7 @@ class CreateCategoriaTest extends TestCase
     /** @test */
     public function can_create_category()
     {
-        $response = $this->postJson(route("api.categoria.store"), [
+        $response = $this->postJson(route("api.categories.store"), [
             "nombre" => "Prueba 1",
             "descripcion" => "Descripcion de la categoria"
         ])->assertCreated();
@@ -24,14 +24,14 @@ class CreateCategoriaTest extends TestCase
 
         $response->assertHeader(
             "Location",
-            route("api.categoria.show", $categoria)
+            route("api.categories.show", $categoria)
         );
     }
 
     /** @test */
     public function name_is_requered()
     {
-        $response = $this->postJson(route("api.categoria.store"), [
+        $response = $this->postJson(route("api.categories.store"), [
             "descripcion" => "descripcion de la categoria"
         ]);
 
