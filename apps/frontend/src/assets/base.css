@@ -36,6 +36,8 @@
 .text-primary { color: var(--color-primary); }
 .bg-muted { background-color: var(--color-muted); }
 .border-border { border-color: var(--color-border); }
+.bg-background-secondary { background-color: var(--color-accent); }
+
 
 .button-primary {
   background-color: var(--color-secondary);

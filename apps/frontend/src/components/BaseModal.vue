@@ -42,7 +42,7 @@
                   @click="confirmModal">Guardar</button>
 
                   <button type="button" command="close" commandfor="dialog"
-                  class="mt-3! m-1! inline-flex w-full justify-center rounded-md bg-muted px-3 py-2 text-sm font-semibold text-foreground shadow-xs  ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer"
+                  class="mt-3! m-1! inline-flex w-full justify-center rounded-md bg-muted border-2 border-solid px-3 py-2 text-sm font-semibold text-foreground shadow-xs  ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer"
                   @click="closeModal">Cancelar</button>
 
                 </div>
