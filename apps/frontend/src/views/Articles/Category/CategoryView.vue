@@ -25,6 +25,14 @@
                 </div>
             </template>
         </DataTable>
+        <div class="w-full">
+            <Paginator v-if="pagination.total > 0"
+                v-model:currentPage="pagination.current_page "
+                @update:currentPage="getCategories"
+                :total-items="pagination.total"
+                :items-per-page="pagination.per_page"
+            />
+        </div>
     </section>
 
     <BaseModal v-model="showCategoryModal" :title="category.id ? 'Editar Categoría' : 'Nueva Categoría'"

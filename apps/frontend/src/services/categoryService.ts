@@ -2,8 +2,21 @@ import axiosInstance from "./axiosConfig";
 import type { CategoryView } from '@/models/Categories';
 
 export const categoryService = {
-    async getCategories() {
-        const response = await axiosInstance.get('/categories');
+
+
+    async getCategories(pageSize: number = 10, pageNumber: number = 1) {
+
+        const params = {
+            page: {
+                size: pageSize,
+                number: pageNumber
+            }
+        };
+
+        const response = await axiosInstance.get('/categories', {
+            params: params
+        });
+
         return response.data;
     },
 
