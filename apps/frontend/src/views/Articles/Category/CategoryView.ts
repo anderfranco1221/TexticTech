@@ -3,6 +3,7 @@ import DataTable from "@/components/DataTable.vue";
 import { categoryService } from '@/services/categoryService';
 import BaseModal from '@/components/BaseModal.vue';
 import Paginator from '@/components/Paginator.vue';
+import Loadding from '@/components/Loadding.vue';
 import type { CategoryView } from '@/models/Categories';
 import type {TableColumn, PaginationModel} from '@/models/common';
 
@@ -12,13 +13,14 @@ export default defineComponent({
         DataTable,
         BaseModal,
         Paginator,
+        Loadding
     },
     data() {
         return {
             columns: [
                 { key: 'id', label: 'ID' },
                 { key: 'nombre', label: 'Nombre' },
-                { key: 'descripcion', label: 'Descripcion' },
+                { key: 'descripcion', label: 'Descripcion', withMax: 'w-1/3' },
                 { key: 'acciones', label: 'Acciones' }
             ] as TableColumn[],
             categories: [] as CategoryView[],
@@ -70,9 +72,12 @@ export default defineComponent({
             this.loadding = false;
         },
 
-        openAddModal(category: CategoryView) {
+        openAddModal(category?: CategoryView) {
             //this.isEditing = false;
-            this.category = category;
+            if (!category) {
+                this.category = {} as CategoryView;
+            }
+            
             this.showCategoryModal = true;
         },
 
@@ -100,7 +105,7 @@ export default defineComponent({
             // ?Se puede tipar o colocar un valor por defecto para controllar este posible error?
             if (response) {
                 response.then(() => {
-                    //this.getCategories();
+                    if(!this.category.id) this.getCategories();
                     this.closeCategoryModal();
                 }).catch((error: any) => {
                     console.error('Error al guardar la categoría:', error);

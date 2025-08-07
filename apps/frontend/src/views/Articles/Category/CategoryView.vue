@@ -4,14 +4,24 @@
     <hgroup class="dark:text-white font-bold text-4xl mt-4! mb-8!">
         <h1 class="pl-6 ml-15!">
             Categoria
-
         </h1>
         <div
             class="mt-5! ml-10! h-1 mx-auto bg-gradient-to-l  md:from-35% sm:from-80% via-95%  via-blue-900 dark:via-cyan-600">
         </div>
     </hgroup>
 
+    <section>
+        <div class="flex justify-end lg:mr-45! sm:mr-10! mb-4">
+            <button @click="openAddModal()"
+                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded ">
+                <font-awesome-icon :icon="['fas', 'plus']" />
+                Crear
+            </button>
+        </div>
+    </section>
+
     <section class="flex flex-col items-center justify-center">
+        <Loadding v-show="loadding" />
         <DataTable :columns="columns" :data="categories" v-show="!loadding">
             <template #acciones="{ row }">
                 <div class="flex gap-2">
@@ -25,7 +35,7 @@
                 </div>
             </template>
         </DataTable>
-        <div class="w-full">
+        <div class="lg:w-5/6 sm:w-full" v-if="!loadding">
             <Paginator v-if="pagination.total > 0"
                 v-model:currentPage="pagination.current_page "
                 @update:currentPage="getCategories"
