@@ -92,25 +92,16 @@ export default defineComponent({
                 return;
             }
 
-            let response: Promise<any>;
+            const response = this.category.id
+                ? categoryService.updateCategory(this.category.id, this.category)
+                : categoryService.createCategory(this.category);
 
-            if(this.category.id) {
-                response = categoryService.updateCategory(this.category.id, this.category);
-            }
-
-            if(!this.category.id){
-                response = categoryService.createCategory(this.category);
-            }
-
-            // ?Se puede tipar o colocar un valor por defecto para controllar este posible error?
-            if (response) {
-                response.then(() => {
-                    if(!this.category.id) this.getCategories();
-                    this.closeCategoryModal();
-                }).catch((error: any) => {
-                    console.error('Error al guardar la categoría:', error);
-                });
-            }
+            response.then(() => {
+                if (!this.category.id) this.getCategories();
+                this.closeCategoryModal();
+            }).catch((error: any) => {
+                console.error('Error al guardar la categoría:', error);
+            });
         }
 
     }
