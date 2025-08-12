@@ -4,6 +4,7 @@ import { categoryService } from '@/services/categoryService';
 import BaseModal from '@/components/BaseModal.vue';
 import Paginator from '@/components/Paginator.vue';
 import Loadding from '@/components/Loadding.vue';
+import TitleView from '@/components/TitleView.vue';
 import type { CategoryView } from '@/models/Categories';
 import type {TableColumn, PaginationModel} from '@/models/common';
 
@@ -13,7 +14,8 @@ export default defineComponent({
         DataTable,
         BaseModal,
         Paginator,
-        Loadding
+        Loadding,
+        TitleView
     },
     data() {
         return {
