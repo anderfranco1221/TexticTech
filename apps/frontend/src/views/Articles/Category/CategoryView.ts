@@ -41,7 +41,7 @@ export default defineComponent({
     },
     mounted() {
         this.getCategories()
-        
+
         //TODO: Crear el componente de paginación y añadirlo aquí
         //TODO: Loadding en el componente DataTable
         //TODO: Modificar registros
@@ -54,7 +54,7 @@ export default defineComponent({
             this.loadding = true;
             try {
                 const data = await categoryService.getCategories(this.pagination.per_page, this.pagination.current_page);
-                
+
                 this.categories = data.data.map((category:any) => ({
                     id: category.id,
                     nombre: category.attributes.nombre,
@@ -64,7 +64,7 @@ export default defineComponent({
 
                 this.pagination = data.meta;
                 // console.log(this.pagination);
-                
+
             } catch (error: any) {
                 //this.error = `No se pudieron cargar las categorías: ${err.message || 'Error desconocido'}`;
                 console.log('Error al cargar las categorías:', error);
@@ -74,10 +74,10 @@ export default defineComponent({
 
         openAddModal(category?: CategoryView) {
             //this.isEditing = false;
-            if (!category) {
-                this.category = {} as CategoryView;
+            if (category) {
+                this.category = category;
             }
-            
+
             this.showCategoryModal = true;
         },
 
