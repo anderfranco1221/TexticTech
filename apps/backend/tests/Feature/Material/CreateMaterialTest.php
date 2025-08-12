@@ -16,7 +16,7 @@ class CreateMaterialTest extends TestCase
     /** @test */
     public function can_create_materiales()
     {
-        $response = $this->postJson(route("api.materiales.store"), [
+        $response = $this->postJson(route("api.materials.store"), [
             "codigo" => "INO-001",
             "nombre" => "Material",
             "descripcion" => "Descripcion del material",
@@ -38,7 +38,7 @@ class CreateMaterialTest extends TestCase
     /** @test */
     public function codigo_is_required()
     {
-        $response = $this->postJson(route("api.materiales.store"), [
+        $response = $this->postJson(route("api.materials.store"), [
             "nombre" => "Material",
             "descripcion" => "Descripcion del material",
             "estado" => true,
@@ -52,7 +52,7 @@ class CreateMaterialTest extends TestCase
     /** @test */
     public function nombre_is_required()
     {
-        $response = $this->postJson(route("api.materiales.store"), [
+        $response = $this->postJson(route("api.materials.store"), [
             "codigo" => "INO-001",
             "descripcion" => "Descripcion del material",
             "estado" => true,
@@ -66,7 +66,7 @@ class CreateMaterialTest extends TestCase
     /** @test */
     public function unidad_is_required()
     {
-        $response = $this->postJson(route("api.materiales.store"), [
+        $response = $this->postJson(route("api.materials.store"), [
             "codigo" => "INO-001",
             "nombre" => "Material",
             "descripcion" => "Descripcion del material",
@@ -81,7 +81,7 @@ class CreateMaterialTest extends TestCase
     /** @test */
     public function codigo_must_only_contain_letters_numbers_and_dashes()
     {
-        $response = $this->postJson(route('api.materiales.store'), [
+        $response = $this->postJson(route('api.materials.store'), [
             "codigo" => '$#$$?)(&%$%#""',
             "nombre" => "Material",
             "descripcion" => "Descripcion del material",
@@ -97,7 +97,7 @@ class CreateMaterialTest extends TestCase
      /** @test */
     public function codigo_must_not_contain_underscores()
     {
-        $response = $this->postJson(route('api.materiales.store'), [
+        $response = $this->postJson(route('api.materials.store'), [
             "codigo" => 'holla_as',
             "nombre" => "Material",
             "descripcion" => "Descripcion del material",
@@ -113,7 +113,7 @@ class CreateMaterialTest extends TestCase
      /** @test */
     public function slug_must_not_start_with_dashes()
     {
-        $response = $this->postJson(route('api.materiales.store'), [
+        $response = $this->postJson(route('api.materials.store'), [
                 "codigo" => '-starts-with-dashe',
                 "nombre" => "Material",
                 "descripcion" => "Descripcion del material",
@@ -129,7 +129,7 @@ class CreateMaterialTest extends TestCase
      /** @test */
     public function slug_must_not_finish_with_dashes()
     {
-        $response = $this->postJson(route('api.materiales.store'), [
+        $response = $this->postJson(route('api.materials.store'), [
                 "codigo" => 'finish-with-dashe-',
                 "nombre" => "Material",
                 "descripcion" => "Descripcion del material",

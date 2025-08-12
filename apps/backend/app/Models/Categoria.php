@@ -11,10 +11,13 @@ class Categoria extends Model
 
     protected $table = "categoria";
 
+    public $resourceType = "categories";
+
     public $timestamps = false;
+    protected $guarded = [];
 
     protected $fillable = [
-        "id", "nombre", "descripcion"
+        "nombre", "descripcion"
     ];
     
 }

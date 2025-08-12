@@ -51,10 +51,10 @@ class MaterialController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Material $materiale, SaveMaterialRequest $request): MaterialResource
+    public function update(Material $material, SaveMaterialRequest $request): MaterialResource
     {
-        $materiale->update($request->validated());
-        return MaterialResource::make($materiale);
+        $material->update($request->validated());
+        return MaterialResource::make($material);
     }
 
     /**

@@ -15,15 +15,15 @@ const props = defineProps<Props>();
             <thead
                 class="text-gray-600 dark:text-gray-200 border-b-2 border-gray-200 dark:border-gray-600 text-left font-medium">
                 <tr>
-                    <th class="p-4 pl-8" v-for="col in columns" :key="col.key">
+                    <th class="p-4 pl-8" v-for="col in columns" :key="col.key" :class="col.withMax">
                         {{ col.label }}
                     </th>
                 </tr>
             </thead>
             <tbody class="border-b border-gray-100 dark:border-gray-700 dark:text-gray-400">
                 <tr v-for="(row, rowIndex) in data" :key="rowIndex">
-                    <td class="p-4 pl-8" v-for="col in columns" :key="col.key + rowIndex">
-                        <slot :name="col.key" :row="row">
+                    <td class="p-4 pl-8 " v-for="col in columns" :key="col.key + rowIndex">
+                        <slot :name="col.key" :row="row" class="overflow-hidden text-ellipsis break-words">
                             <!-- Si no tiene slot, mostramos el valor directamente -->
                             {{ row[col.key] }}
                         </slot>
@@ -38,6 +38,6 @@ const props = defineProps<Props>();
                 </tr>
             </tfoot>
         </table>
-        
+
     </div>
 </template>

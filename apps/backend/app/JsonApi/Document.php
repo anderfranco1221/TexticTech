@@ -18,22 +18,23 @@ class Document extends Collection
     {
         if($id) $this->items["data"]["id"] = (string) $id;
 
+//dd($this, $id);
         return $this;
     }
 
     public function attributes(array $attributes): Document
     {
+        //dump($this);
         unset($attributes['_relationships']);
 
         $this->items["data"]["attributes"] = $attributes;
-
         return $this;
     }
 
     public function links(array $links): Document
     {
-        $this->items["data"]["links"] = $links;
         
+        $this->items["data"]["links"] = $links;
         return $this;
     }
 

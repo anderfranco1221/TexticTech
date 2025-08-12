@@ -25,26 +25,27 @@ class CategoriaController extends Controller
      */
     public function store(SaveCategoriaRequest $request): CategoriaResource
     {
-
         $categoria = Categoria::create($request->validated());
+        
         return CategoriaResource::make($categoria);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($idCategoria): JsonResource
+    public function show($category): JsonResource
     {
-        $categoria = Categoria::where("id", $idCategoria)->firstOrFail();
+        $categoria = Categoria::where("id", $category)->firstOrFail();
         return CategoriaResource::make($categoria);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Categoria $category, SaveCategoriaRequest $request): CategoriaResource
     {
-        //
+        $category->update($request->validated());
+        return CategoriaResource::make($category);
     }
 
     /**

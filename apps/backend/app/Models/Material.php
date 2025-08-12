@@ -10,7 +10,7 @@ class Material extends Model
     use HasFactory;
 
     protected $table = "material";
-    public $resourceType = 'materiales';
+    public $resourceType = 'materials';
 
     protected $guarded = [];
 
