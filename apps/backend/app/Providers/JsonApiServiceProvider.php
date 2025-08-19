@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
+use App\JsonApi\JsonApiRequest;
 use App\JsonApi\JsonApiQueryBuilder;
 use App\JsonApi\JsonApiTestResponse;
 use Illuminate\Testing\TestResponse;
@@ -26,5 +28,6 @@ class JsonApiServiceProvider extends ServiceProvider
         Builder::mixin(new JsonApiQueryBuilder());
 
         TestResponse::mixin(new JsonApiTestResponse());
+        Request::mixin(new JsonApiRequest);
     }
 }

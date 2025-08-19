@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\JsonApi\AuthenticationException;
 use Throwable;
 use Illuminate\Validation\ValidationException;
 use App\Http\Responses\JsonApiValidationErrorResponse;
@@ -29,10 +30,15 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(fn (NotFoundHttpException $e) => throw new JsonApi\NotFoundHttpException);
         $this->renderable(fn (BadRequestHttpException $e)=> throw new JsonApi\BadRequestHttpException($e->getMessage()));
+        $this->renderable(fn (AuthenticationException $e) => throw new JsonApi\AuthenticationException );
     }
 
     protected function invalidJson($request, ValidationException $exception ){
 
-        return new JsonApiValidationErrorResponse($exception);
+        if ($request->isJsonApi()) {
+            return new JsonApiValidationErrorResponse($exception);
+        }
+
+        return parent::invalidJson($request, $exception);
     }
 }

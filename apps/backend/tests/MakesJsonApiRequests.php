@@ -10,45 +10,59 @@ trait MakesJsonApiRequests
 {
     protected bool $formatJsonApiDocument = true;
 
+    protected bool $addJsonApiHeaders = true;
+
     protected function setUp(): void
     {
         parent::setUp();
+
     }
 
-    public function withoutJsonApiDocumentFormatting()
+    public function withoutJsonApiDocumentFormatting(): self
     {
         $this->formatJsonApiDocument = false;
+
+        return $this;
     }
 
-    public function json($method, $uri, array $data = [], array $headers = [], $options = 0): TestResponse
+    public function withoutJsonApiHeadersFormatting(): self
     {
-        $headers['accept'] = 'application/vnd.api+json';
+        $this->addJsonApiHeaders = false;
 
-        if ($this->formatJsonApiDocument) {
+        return $this;
+    }
+
+    public function withoutJsonApiHelpers(): self
+    {
+        $this->formatJsonApiDocument = false;
+        $this->addJsonApiHeaders = false;
+
+        return $this;
+    }
+
+    public function json($method, $uri, array $data = [], array $headers = [], $options = 0 ): TestResponse
+    {
+
+        if ($this->addJsonApiHeaders) {
+            $headers['accept'] = 'application/vnd.api+json';
+
+            if ($method === 'POST' || $method === 'PATCH') {
+                $headers['content-type'] = 'application/vnd.api+json';
+            }
+        }
+
+        if ($this->formatJsonApiDocument && ! isset($data['data'])) {
             $formattedData = $this->getFormattedDatta($uri, $data);
         }
 
         return parent::json($method, $uri, $formattedData ?? $data, $headers, $options);
     }
 
-    public function postJson($uri, array $data = [], array $headers = [], $options = 0): TestResponse
-    {
-        $headers['content-type'] = 'application/vnd.api+json';
-
-        return parent::postJson($uri, $data, $headers, $options);
-    }
-
-    public function patchJson($uri, array $data = [], array $headers = [], $options = 0): TestResponse
-    {
-        $headers['content-type'] = 'application/vnd.api+json';
-        return parent::patchJson($uri, $data, $headers, $options);
-    }
-
     public function getFormattedDatta($uri, array $data): array
     {
         $path = parse_url($uri)['path'];
-        $type = (string)Str::of($path)->after('api/')->before('/');
-        $id = (string)Str::of($path)->after($type)->replace('/', '');
+        $type = (string) Str::of($path)->after('api/v1/')->before('/');
+        $id = (string) Str::of($path)->after($type)->replace('/', '');
 
         return Document::type($type)
             ->id($id)

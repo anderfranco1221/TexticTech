@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer("cantidad");
             $table->timestamps();
 
-            $table->foreignId("id_producto")->constrained("producto");
-            $table->foreignId("id_material")->constrained("material");
+            $table->foreignId("producto_id")->constrained("producto");
+            $table->foreignId("material_id")->constrained("material");
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table("producto_material", function (Blueprint $table) {
-            $table->dropForeign(['id_producto']);
-            $table->dropForeign(['id_material']);
+            $table->dropForeign(['producto_id']);
+            $table->dropForeign(['material_id']);
         });
         Schema::dropIfExists('producto_material');
     }
