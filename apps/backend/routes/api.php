@@ -24,9 +24,6 @@ Route::withoutMiddleware([ValidateJsonApiDocument::class, ValidateJsonApiHeaders
         Route::post("login", LoginController::class)->name('login');
     });
 
-/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-}); */
 
 Route::apiResource('categories', CategoriaController::class);
 //->only(["index", "store"]);
