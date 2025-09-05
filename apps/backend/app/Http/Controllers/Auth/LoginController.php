@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Responses\TokenResponses;
 use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
