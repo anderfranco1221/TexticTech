@@ -31,6 +31,14 @@ export default defineComponent({
             return this.route.name;
         }
     },
+    watch:{
+        routeName(newRouteName) {
+            // Cierra todos los dropdowns cuando la ruta cambia
+            for (const key of Object.keys(this.dropdown) as Array<keyof PermisosUsuario>) {
+                this.dropdown[key] = false;
+            }
+        }
+    },
     methods: {
         toggleDropdown(dropdownName: keyof PermisosUsuario) {
             for (const key of Object.keys(this.dropdown) as Array<keyof PermisosUsuario>) {
@@ -39,7 +47,7 @@ export default defineComponent({
                 }
             }
             //console.log(this.dropdown);
-            
+
             this.dropdown[dropdownName] = !this.dropdown[dropdownName];
         },
     },

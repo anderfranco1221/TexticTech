@@ -15,7 +15,13 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $products = Producto::query()
+            ->allowedFilters(["codigo", "nombre", "estado"])
+            ->allowedSorts(["codigo", "nombre"])
+            ->sparseFieldset()
+            ->jsonPaginate();
+
+        return ProductoResource::collection($products);
     }
 
     /**

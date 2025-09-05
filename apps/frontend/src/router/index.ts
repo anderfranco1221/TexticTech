@@ -32,6 +32,11 @@ const router = createRouter({
           path: 'categories',
           name: 'categories',
           component: () => import('../views/Articles/Category/CategoryView.vue'),
+        },
+        {
+          path: 'products',
+          name: 'products',
+          component: () => import('../views/Articles/Product/ProductView.vue'),
         }
       ]
     },
@@ -46,18 +51,16 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next)=> {
-  
+router.beforeEach((to, from, next) => {
+
   if (to.matched.some(record => record.meta.requirestAuth)) {
     // This route requires authentication, check if the user is authenticated
-    if(true){
+    if (true) {
       next(); // Proceed to the route
       return;
     }
 
-    next("/login"); // Redirect to login page if not authenticated
   }
-  next();
 });
 
 export default router
