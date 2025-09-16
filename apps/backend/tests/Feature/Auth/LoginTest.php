@@ -89,7 +89,7 @@ class LoginTest extends TestCase
 
         $response = $this->postJson(route('api.login'), $data);
 
-        $response->dump()->assertJsonValidationErrorFor('email');
+        $response->assertJsonValidationErrorFor('email');
     }
 
     /** @test */

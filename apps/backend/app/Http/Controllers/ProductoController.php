@@ -24,13 +24,6 @@ class ProductoController extends Controller
         return ProductoResource::collection($products);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -65,9 +58,10 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Producto $producto, SaveProductoRequest $request)
     {
-        //
+        $producto->update($request->validated());
+        return ProductoResource::make($producto);
     }
 
     /**

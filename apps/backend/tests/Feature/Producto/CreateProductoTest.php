@@ -12,7 +12,7 @@ class CreateProductoTest extends TestCase
 {
     use RefreshDatabase;
 
-    
+    /** @test */
     public function test_can_create_productos(){
         $categoria = Categoria::factory()->create();
 
@@ -74,8 +74,8 @@ class CreateProductoTest extends TestCase
 
         $response->assertJsonApiValidationErrors("nombre");
     }
-/* 
-    
+/*
+
     public function category_is_required()
     {
         //$categoria = Categoria::factory()->create();
