@@ -51,6 +51,29 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
             };
         }
 
+        public function allowedIncludes(): Closure
+        {
+            return function ($allowedIncludes) {
+                /** @var Builder $this */
+                if (request()->isNotFilled('include')) {
+                    return $this;
+                }
+
+                $includes = explode(',', request()->input('include'));
+
+                foreach ($includes as $include) {
+                    // abort_unless(in_array($include, $allowedIncludes), 400);
+                    if (! in_array($include, $allowedIncludes)) {
+                        throw new BadRequestHttpException("The include relationship '{$include}' is not in the '{$this->getResourceType()}' resource.");
+                    }
+
+                    $this->with($include);
+                }
+
+                return $this;
+            };
+        }
+
         public function sparseFieldset(): Closure
         {
             return function(){

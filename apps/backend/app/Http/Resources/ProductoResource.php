@@ -11,14 +11,16 @@ class ProductoResource extends JsonResource
 {
 
     use JsonApiResource;
-    
+
     public function toJsonApi(): array
     {
         return [
             "codigo" => $this->resource->codigo,
             "nombre" => $this->resource->nombre,
             "descripcion" => $this->resource->descripcion,
-            "stock" => $this->resource->stock
+            "stock" => $this->resource->stock,
+            "estado" => $this->resource->estado,
+            "precio" => $this->resource->precio
         ];
     }
 

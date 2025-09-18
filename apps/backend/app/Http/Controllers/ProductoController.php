@@ -44,7 +44,7 @@ class ProductoController extends Controller
             ->sparseFieldset()
             ->firstOrFail();
 
-        return $producto;
+        return ProductoResource::make($producto);
     }
 
     /**

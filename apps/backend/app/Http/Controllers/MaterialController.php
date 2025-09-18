@@ -62,6 +62,7 @@ class MaterialController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //TODO: Implementar las reglas de negocio para eliminar un material
+        //Posiblemente validar las relaciones con el modelo de producto
     }
 }

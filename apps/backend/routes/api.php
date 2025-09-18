@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Producto\ProductoCategoriaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MaterialController;
@@ -30,4 +31,17 @@ Route::withoutMiddleware([ValidateJsonApiDocument::class, ValidateJsonApiHeaders
 Route::apiResource('categories', CategoriaController::class);
 //->only(["index", "store"]);
 Route::apiResource('productos', ProductoController::class);
+Route::prefix('productos/{producto}')
+    ->controller(ProductoCategoriaController::class)
+    ->group(function () {
+        Route::get('relationships/categoria', 'index')
+            ->name('productos.relationships.categoria');
+
+        Route::get('categoria', 'show')
+            ->name('productos.categoria');
+
+        Route::post('relationships/categoria', 'update');
+});
+
+
 Route::apiResource('materials', MaterialController::class);

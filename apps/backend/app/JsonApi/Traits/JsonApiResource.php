@@ -3,6 +3,9 @@
 namespace App\JsonApi\Traits;
 
 use App\JsonApi\Document;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 trait JsonApiResource
@@ -18,7 +21,7 @@ trait JsonApiResource
      */
     public function toArray($request)
     {
-        
+
         //* Agrega las relaciones del objeto
         if($request->filled('included'))
             $this->with['included'] = $this->getIncludes();
@@ -28,7 +31,7 @@ trait JsonApiResource
         return Document::type($this->getResourceType())
                 ->id($this->resource->getRouteKey())
                 ->attributes($this->filterAttributes($this->toJsonApi()))
-                //->relationshipsLinks($this->getRelationshipLinks())
+                ->relationshipsLinks($this->getRelationshipLinks())
                 ->links([ 'self' => route('api.' . $this->resource->getResourceType() . '.show', $this->resource)
                 ])->get('data');
     }
@@ -86,8 +89,38 @@ trait JsonApiResource
     {
         $collection = parent::collection($resource);
 
-        $collection->with['links'] = ['self' => $resource->path()];
+        // * Insercion de las relaciones
+        if (request()->filled('include')) {
+            foreach ($collection->resource as $resource) {
+                foreach ($resource->getIncludes() as $include) {
+
+                    if($include->resource instanceof Collection){
+                        $include->resource->each(fn ($r) => $collection->with['included'][] = $r );
+                        continue;
+                    }
+
+                    $include->resource instanceof MissingValue ?: $collection->with['included'][] = $include;
+                }
+            }
+        }
+
+        $collection->with['links'] = ['self' => request()->path()];
 
         return $collection;
+    }
+
+    public static function identifier(Model $resource): array
+    {
+        return Document::type($resource->getResourceType())
+            ->id($resource->getRoutekey())
+            ->toArray();
+    }
+
+    public static function identifiers(Collection $resource): array
+    {
+        return $resource->isEmpty() ?
+            Document::empty() : Document::type($resource->first()->getResourceType())
+                ->ids($resource)
+                ->toArray();
     }
 }

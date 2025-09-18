@@ -14,11 +14,29 @@ class Document extends Collection
             ]);
     }
 
+    public static function empty(): array
+    {
+        return [
+            'data' => [],
+        ];
+    }
+
     public function id($id): Document
     {
         if($id) $this->items["data"]["id"] = (string) $id;
 
-//dd($this, $id);
+        return $this;
+    }
+
+    public function ids(Collection $resources): Document
+    {
+        $this->items['data'] = $resources->map(function ($resource) {
+            return [
+                'type' => $resource->getResourceType(),
+                'id' => (string) $resource->getRouteKey(),
+            ];
+        });
+
         return $this;
     }
 
@@ -33,7 +51,7 @@ class Document extends Collection
 
     public function links(array $links): Document
     {
-        
+
         $this->items["data"]["links"] = $links;
         return $this;
     }
